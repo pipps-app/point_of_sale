@@ -1,0 +1,80 @@
+This specification sheet outlines the functional and technical requirements for the PIPPS platform, organized according to your finalized menu structure.
+
+---
+
+## ## POSMENU: Operational & Historical Modules
+
+
+## ## POSMENU: Front-End Operations
+
+### ### POS (Point of Sale)
+* **Financial Precision**: Implements integer-based "cents" math for all internal calculations to eliminate floating-point rounding errors.
+* **Interactive Search**: Utilizes a live search interface with full keyboard support (Arrow keys for selection, Enter for adding to cart).
+* **Calculation Workflow**: Applies item-specific adjustments first, then calculates global adjustments based on the resulting subtotal.
+* **Documentation**: Leverages `Dompdf` for server-side PDF receipt generation and `PHPMailer` for automated digital distribution.
+* **Inventory Control**: Automatically decrements the `quantity_on_hand` for every item sold upon transaction completion.
+
+### ### POS Refund
+* **Purpose**: Manages customer returns and the reversal of financial transactions.
+* **Logic**: Reverses the financial flow established during initial sales to ensure balanced accounts and accurate historical reporting.
+
+### ### POS Invoice
+* **Detailed Processing**: Operates with the same high-precision engine as the POS module to process customer-specific invoices.
+* **Documentation**: Regenerates full-detail invoices for distribution, including a comprehensive breakdown of itemized discounts and charges.
+
+### ### POS Query
+* **Purpose**: Serves as an administrative tool for searching and reviewing historical order data.
+* **Visibility**: Provides a transparent view into past transactions for tracking, auditing, and reconciliation purposes.
+
+### ### Item Price List
+* **Purpose**: Displays a read-only list of current item names, codes, and their respective selling prices.
+* **Distribution**: Includes an integrated "Email Item Price List" feature using a dedicated modal to send the catalog to specified recipients.
+
+---
+
+## ## CODEMENU: Administrative & Relationship Management
+
+### ### Item
+* **Master Catalog**: Centralizes the management of product codes, names, vendors, and categories.
+* **Pricing Engine**: Features an automated calculation where $Selling Price = Cost + (Cost \times \frac{Markup}{100})$.
+* **Data Integrity**: Uses specialized functions like `cleanPriceField` to remove commas and format decimal values for database storage.
+
+### ### Client
+* **Relationship Management**: Stores detailed customer profiles including names, addresses, emails, and notes.
+* **Phone Formatting**: Automatically applies a standard (XXX) XXX-XXXX mask for home, cell, and work numbers to ensure data consistency.
+* **Safety Constraints**: Prevents the deletion of any client record that is currently associated with booked slots in the system.
+
+### ### Vendor
+* **Supply Chain**: Manages the database of entities that supply inventory items.
+* **Integration**: Vendors are linked directly to items in the master catalog for sourcing visibility.
+
+### ### Item Category
+* **Inventory Organization**: Groups products using unique category codes (e.g., for reporting or easier item navigation).
+* **Logic Constraints**: Systems prevent the deletion of a category if it is currently linked to active items.
+
+### ### Client Category
+* **Customer Segmentation**: Organizes the customer base into logical groups.
+* **Constraint**: Prevents the deletion of a category code if it is currently assigned to any client records.
+
+### ### Discount
+* **Price Reductions**: Manages active discounts with support for "fixed" or "percentage" types.
+* **Flexibility**: Discounts can be configured globally or restricted specifically to individual items by ID.
+
+### ### Charge
+* **Additional Fees**: Manages transactional add-ons such as service fees or taxes.
+* **Configuration**: Supports fixed or percentage-based rates that can apply to specific items or the total transaction subtotal.
+
+### ### Company
+* **Business Identity**: Configures the primary business details, including name, address, phone, and fax.
+* **Receipt Customization**: Allows management to define three custom footer lines that appear on all system-generated documents.
+
+---
+
+## ## SECMENU: Security
+
+### ### Change Password
+* **Credentials Management**: Allows users to securely update their account passwords.
+* **Access Control**: Integrated with `sessionvalidate.php` to ensure only the authenticated user can modify their specific security settings.
+
+---
+*This specification is derived from the PIPPS source code and menu configurations.*
