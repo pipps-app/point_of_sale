@@ -1,7 +1,5 @@
-const CACHE_NAME = 'pipps-pos-static-v1';
+const CACHE_NAME = 'pipps-pos-static-v2';
 const PRECACHE_URLS = [
-  '/',
-  '/index.html',
   '/privacy-policy.html',
   '/terms-of-service.html'
 ];
@@ -24,6 +22,18 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') {
+    return;
+  }
+
+  const isHtml = event.request.mode === 'navigate' ||
+    event.request.headers.get('accept')?.includes('text/html');
+
+  if (isHtml) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => response)
+        .catch(() => caches.match(event.request))
+    );
     return;
   }
 
