@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>PIPPS Point of Sale</title>
+    <link>https://pos.pipps.app/</link>
+    <description>Updates and announcements for PIPPS Point of Sale.</description>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 13 Apr 2026 21:37:16 GMT</lastBuildDate>
+    <item>
+      <title>PIPPS Point of Sale is 100% Free</title>
+      <link>https://pos.pipps.app/</link>
+      <guid isPermaLink="true">https://pos.pipps.app/</guid>
+      <pubDate>Mon, 13 Apr 2026 21:37:16 GMT</pubDate>
+      <description>All PIPPS POS features are now included at no cost. Register and start selling from any device.</description>
+    </item>
+  </channel>
+</rss>
